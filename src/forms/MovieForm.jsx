@@ -11,10 +11,8 @@ const MovieForm = ({ newMovie, setNewMovie, onSubmit, isEditMode }) => {
       }}
     >
       <div className="mb-4">
-        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-          Judul Film
-        </label>
         <Input
+          label="Judul Film"
           type="text"
           value={newMovie.title}
           onChange={(e) => setNewMovie({ ...newMovie, title: e.target.value })}
@@ -42,11 +40,9 @@ const MovieForm = ({ newMovie, setNewMovie, onSubmit, isEditMode }) => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
-          Status Ditonton
-        </label>
         <label className="inline-flex items-center mt-2">
           <Input
+            label="Status Ditonton"
             type="checkbox"
             checked={newMovie.watched}
             onChange={() =>

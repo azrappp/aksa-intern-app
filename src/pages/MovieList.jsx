@@ -58,19 +58,26 @@ const MovieList = () => {
   useEffect(() => {
     setHasMoreData(movies.length > (pageIndex + 1) * pageSize);
   }, [movies, pageIndex, pageSize]);
-
+  const handleLogout = () => {
+    localStorage.removeItem("auth");
+    alert("Logout berhasil!");
+    window.location.href = "/login";
+  };
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Daftar Filmku</h1>
+      <div className="flex justify-between">
+        <Button
+          onClick={() => {
+            setIsEditMode(false);
+            setIsModalOpen(true);
+          }}
+        >
+          Tambah Film
+        </Button>
 
-      <Button
-        onClick={() => {
-          setIsEditMode(false);
-          setIsModalOpen(true);
-        }}
-      >
-        Tambah Film
-      </Button>
+        <Button onClick={handleLogout}>Logout</Button>
+      </div>
 
       <Table
         data={movies.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)}
