@@ -8,12 +8,12 @@ const Input = forwardRef(
     return (
       <Field>
         {label && (
-          <Label className="text-sm font-semibold text-slate-900">
+          <Label className="text-sm font-semibold text-slate-900 dark:text-slate-100">
             {label}
           </Label>
         )}
         {description && (
-          <Description className="text-sm text-slate-400">
+          <Description className="text-sm text-slate-400 dark:text-slate-300">
             {description}
           </Description>
         )}
@@ -22,9 +22,12 @@ const Input = forwardRef(
           type={type}
           ref={ref}
           className={clsx(
-            "w-full mt-3 py-1.5 px-3 border rounded-lg text-slate-900 placeholder-slate-300 border-slate-300 bg-white",
-            "data-[invalid]:border-red-400 focus:outline-none data-[invalid]:data-[focus]:outline-none data-[focus]:outline-2 data-[focus]:outline-slate-400 data-[focus]:-outline-offset-2 ",
-            "data-[disabled]:bg-slate-100 data-[disabled]:text-slate-500",
+            "w-full mt-3 py-1.5 px-3 border rounded-lg",
+            "text-slate-900 placeholder-slate-300 border-slate-300 bg-white", // Light mode styles
+            "dark:text-slate-100 dark:placeholder-slate-500 dark:border-slate-600 dark:bg-slate-800", // Dark mode styles
+            "data-[invalid]:border-red-400 focus:outline-none",
+            "data-[invalid]:data-[focus]:outline-none data-[focus]:outline-2 data-[focus]:outline-slate-400 data-[focus]:-outline-offset-2",
+            "data-[disabled]:bg-slate-100 data-[disabled]:text-slate-500 dark:data-[disabled]:bg-slate-700 dark:data-[disabled]:text-slate-400",
           )}
           placeholder={placeholder}
           {...props}

@@ -43,7 +43,7 @@ const Table = React.memo(
     });
 
     return (
-      <div className="my-4 border border-slate-300 border-none rounded-xl overflow-clip shadow-sm">
+      <div className="my-4 border border-slate-300 dark:border-slate-700 rounded-xl overflow-clip shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full min-w-min items-center border-collapse table-fixed">
             <thead className="min-w-min">
@@ -56,7 +56,7 @@ const Table = React.memo(
                         width:
                           header.getSize() !== 150 ? header.getSize() : "auto",
                       }}
-                      className="min-w-max px-12 align-middle border border-none py-6 text-xs uppercase border-t-0 border-l-0 border-r-0 whitespace-nowrap font-semibold text-left bg-white text-slate-400 border-slate-300"
+                      className="min-w-max px-12 align-middle border py-6 text-xs uppercase whitespace-nowrap font-semibold text-left bg-white dark:bg-slate-900 dark:text-slate-300 border-slate-300 dark:border-slate-700"
                     >
                       {flexRender(
                         header.column.columnDef.header,
@@ -74,7 +74,7 @@ const Table = React.memo(
                     <td
                       key={cell.id}
                       style={{ width: cell.column.getSize() }}
-                      className="min-w-max border-t-0 px-12 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-6 text-slate-500 bg-white"
+                      className="min-w-max border-t-0 px-12 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-6 text-slate-500 bg-white dark:bg-slate-900 dark:text-slate-400 dark:border-slate-700"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -87,7 +87,7 @@ const Table = React.memo(
             </tbody>
           </table>
           {enablePagination && (
-            <div className="flex justify-between items-center bg-white px-12 py-6 border-t">
+            <div className="flex justify-between items-center bg-white dark:bg-slate-900 px-12 py-6 border-t dark:border-slate-700">
               <Button
                 variant="outline"
                 onClick={() => {
@@ -97,7 +97,7 @@ const Table = React.memo(
               >
                 Previous
               </Button>
-              <span className="text-slate-900">
+              <span className="text-slate-900 dark:text-slate-300">
                 Page {table.getState().pagination.pageIndex + 1}
               </span>
               <Button
