@@ -17,6 +17,7 @@ const MovieList = () => {
     category: "film",
     watched: false,
   });
+  const [filter, setFilter] = useState("all"); // State untuk filter
 
   const deleteMovie = (movieToDelete) => {
     const updatedMovies = movies.filter((movie) => movie !== movieToDelete);
@@ -58,29 +59,56 @@ const MovieList = () => {
   useEffect(() => {
     setHasMoreData(movies.length > (pageIndex + 1) * pageSize);
   }, [movies, pageIndex, pageSize]);
+
   const handleLogout = () => {
     localStorage.removeItem("auth");
     alert("Logout berhasil!");
     window.location.href = "/login";
   };
+
+  // Filter movies based on the selected filter
+  const filteredMovies = movies.filter((movie) => {
+    if (filter === "watched") return movie.watched;
+    if (filter === "notWatched") return !movie.watched;
+    return true; // For 'all'
+  });
+
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Daftar Filmku</h1>
-      <div className="flex justify-between">
-        <Button
-          onClick={() => {
-            setIsEditMode(false);
-            setIsModalOpen(true);
-          }}
-        >
-          Tambah Film
-        </Button>
 
-        <Button onClick={handleLogout}>Logout</Button>
+      <div className="flex justify-between mb-4">
+        <div className="flex gap-4">
+          <Button
+            onClick={() => {
+              setIsEditMode(false);
+              setIsModalOpen(true);
+            }}
+          >
+            Tambah Film
+          </Button>
+          <Button onClick={handleLogout}>Logout</Button>
+        </div>
+
+        {/* Filter Dropdown */}
+        <div className="relative inline-block text-left">
+          <select
+            value={filter}
+            onChange={(e) => setFilter(e.target.value)}
+            className="w-full p-2 rounded-md border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+          >
+            <option value="all">Semua</option>
+            <option value="watched">Sudah Ditonton</option>
+            <option value="notWatched">Belum Ditonton</option>
+          </select>
+        </div>
       </div>
 
       <Table
-        data={movies.slice(pageIndex * pageSize, (pageIndex + 1) * pageSize)}
+        data={filteredMovies.slice(
+          pageIndex * pageSize,
+          (pageIndex + 1) * pageSize,
+        )}
         columnsDef={[
           { header: "Judul Film", accessorKey: "title" },
           {

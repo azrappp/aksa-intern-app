@@ -2,6 +2,7 @@ import { useState } from "react";
 import Input from "../components/Input"; // Pastikan path sesuai
 import Button from "../components/Button"; // Pastikan path sesuai
 import { FiSun, FiMoon } from "react-icons/fi"; // Ikon tema (React Icons)
+import users from "../data/users";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -18,8 +19,12 @@ function Login() {
   };
 
   const handleLogin = () => {
-    if (username === "admin" && password === "password123") {
+    const user = users.find(
+      (user) => user.username === username && user.password === password,
+    );
+    if (user) {
       localStorage.setItem("auth", "true");
+      localStorage.setItem("username", username); // Simpan username
       alert("Login berhasil!");
       window.location.href = "/";
     } else {
@@ -48,6 +53,7 @@ function Login() {
         {/* Form */}
         <div className="space-y-4 mb-5">
           <Input
+            name="username"
             label="Username"
             type="text"
             placeholder="Enter your username"
@@ -55,6 +61,7 @@ function Login() {
             onChange={(e) => setUsername(e.target.value)}
           />
           <Input
+            name="password"
             label="Password"
             type="password"
             placeholder="Enter your password"
