@@ -99,7 +99,6 @@ const Table = React.memo(
                 setPageIndex((old) => Math.max(old - 1, 0));
               }}
               disabled={pageIndex === 0}
-              className="flex-shrink-0"
             >
               Previous
             </Button>
@@ -112,7 +111,6 @@ const Table = React.memo(
                 setPageIndex((old) => old + 1);
               }}
               disabled={!hasMoreData}
-              className="flex-shrink-0"
             >
               Next
             </Button>

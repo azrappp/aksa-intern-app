@@ -18,7 +18,6 @@ const MovieList = () => {
     watched: false,
   });
   const [filter, setFilter] = useState("all"); // State untuk filter
-
   const deleteMovie = (movieToDelete) => {
     const updatedMovies = movies.filter((movie) => movie !== movieToDelete);
     setMovies(updatedMovies);
@@ -60,12 +59,6 @@ const MovieList = () => {
     setHasMoreData(movies.length > (pageIndex + 1) * pageSize);
   }, [movies, pageIndex, pageSize]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("auth");
-    alert("Logout berhasil!");
-    window.location.href = "/login";
-  };
-
   // Filter movies based on the selected filter
   const filteredMovies = movies.filter((movie) => {
     if (filter === "watched") return movie.watched;
@@ -87,7 +80,6 @@ const MovieList = () => {
           >
             Tambah Film
           </Button>
-          <Button onClick={handleLogout}>Logout</Button>
         </div>
 
         {/* Filter Dropdown */}
