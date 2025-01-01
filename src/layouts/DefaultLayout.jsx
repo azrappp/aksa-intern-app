@@ -8,14 +8,10 @@ const DefaultLayout = ({ children }) => {
   return (
     <div className="flex min-h-screen justify-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
       {/* Main Content */}
-      <div className="flex-1 flex flex-col">
-        {/* Navbar */}
-        <Navbar theme={theme} toggleTheme={toggleTheme} />
-        {/* Body */}
-        <main className="mx-auto  p-16 pt-20 w-[1080px] justify-center flex items-center">
-          {children}
-        </main>
-      </div>
+      {/* Navbar */}
+      <Navbar theme={theme} toggleTheme={toggleTheme} />
+      {/* Body */}
+      <main className="mx-auto  pt-20 w-[1080px] ">{children}</main>
     </div>
   );
 };

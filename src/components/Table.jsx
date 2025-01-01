@@ -43,7 +43,7 @@ const Table = React.memo(
     });
 
     return (
-      <div className="my-4 border border-slate-300 dark:border-slate-700 rounded-xl overflow-clip shadow-sm">
+      <div className="my-4 border border-slate-300 dark:border-slate-700 rounded-xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full min-w-min items-center border-collapse table-fixed">
             <thead className="min-w-min">
@@ -56,7 +56,9 @@ const Table = React.memo(
                         width:
                           header.getSize() !== 150 ? header.getSize() : "auto",
                       }}
-                      className="min-w-max px-12 align-middle border py-6 text-xs uppercase whitespace-nowrap font-semibold text-left bg-white dark:bg-slate-900 dark:text-slate-300 border-slate-300 dark:border-slate-700"
+                      className={`min-w-max px-2 sm:px-4 align-middle border py-2 sm:py-4 text-xs sm:text-sm uppercase whitespace-nowrap truncate font-semibold text-left bg-white dark:bg-slate-900 dark:text-slate-300 border-slate-300 dark:border-slate-700 ${
+                        header.column.columnDef.className || ""
+                      }`}
                     >
                       {flexRender(
                         header.column.columnDef.header,
@@ -74,7 +76,9 @@ const Table = React.memo(
                     <td
                       key={cell.id}
                       style={{ width: cell.column.getSize() }}
-                      className="min-w-max border-t-0 px-12 align-middle border-l-0 border-r-0 text-sm whitespace-nowrap py-6 text-slate-500 bg-white dark:bg-slate-900 dark:text-slate-400 dark:border-slate-700"
+                      className={`min-w-max border-t-0 px-2 sm:px-4 align-middle border-l-0 border-r-0 text-xs sm:text-sm whitespace-nowrap truncate py-2 sm:py-4 text-slate-500 bg-white dark:bg-slate-900 dark:text-slate-400 dark:border-slate-700 ${
+                        cell.column.columnDef.className || ""
+                      }`}
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -86,32 +90,34 @@ const Table = React.memo(
               ))}
             </tbody>
           </table>
-          {enablePagination && (
-            <div className="flex justify-between items-center bg-white dark:bg-slate-900 px-12 py-6 border-t dark:border-slate-700">
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setPageIndex((old) => Math.max(old - 1, 0));
-                }}
-                disabled={pageIndex === 0}
-              >
-                Previous
-              </Button>
-              <span className="text-slate-900 dark:text-slate-300">
-                Page {table.getState().pagination.pageIndex + 1}
-              </span>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setPageIndex((old) => old + 1);
-                }}
-                disabled={!hasMoreData}
-              >
-                Next
-              </Button>
-            </div>
-          )}
         </div>
+        {enablePagination && (
+          <div className="flex flex-row justify-between items-center bg-white dark:bg-slate-900 px-4 sm:px-12 py-3 sm:py-6 border-t dark:border-slate-700 gap-x-4">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setPageIndex((old) => Math.max(old - 1, 0));
+              }}
+              disabled={pageIndex === 0}
+              className="flex-shrink-0"
+            >
+              Previous
+            </Button>
+            <span className="text-slate-900 dark:text-slate-300 text-center flex-grow">
+              Page {table.getState().pagination.pageIndex + 1}
+            </span>
+            <Button
+              variant="outline"
+              onClick={() => {
+                setPageIndex((old) => old + 1);
+              }}
+              disabled={!hasMoreData}
+              className="flex-shrink-0"
+            >
+              Next
+            </Button>
+          </div>
+        )}
       </div>
     );
   },
