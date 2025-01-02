@@ -3,7 +3,7 @@ import HomePage from "./HomePage";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MovieDetail from "./pages/MovieDetail";
-import EditUsername from "./forms/EditUsername";
+import EditUsername from "./pages/EditUsername";
 
 function App() {
   return (
