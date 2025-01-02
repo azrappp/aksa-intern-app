@@ -9,10 +9,6 @@ const MovieDetail = () => {
   const movies = JSON.parse(localStorage.getItem("movies")) || [];
   const movie = movies.find((movie) => String(movie.id) === id);
 
-  console.log("movieId:", id); // Debug
-  console.log("movies:", movies); // Debug
-  console.log("matchedMovie:", movie); // Debug
-
   if (!movie) {
     return (
       <div className="flex items-center justify-center min-h-screen p-4 bg-gray-100 dark:bg-gray-900">

@@ -1,9 +1,16 @@
-import { useState } from "react";
-import Input from "../components/Input"; // Pastikan path sesuai
-import Button from "../components/Button"; // Pastikan path sesuai
+import { useState, useEffect } from "react";
+import Button from "../components/Button";
+import Input from "../components/Input";
 
 function EditUsername() {
   const [newUsername, setNewUsername] = useState("");
+
+  useEffect(() => {
+    const storedUsername = localStorage.getItem("username");
+    if (storedUsername) {
+      setNewUsername(storedUsername);
+    }
+  }, []);
 
   const handleChangeUsername = () => {
     if (!newUsername.trim()) {
