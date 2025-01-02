@@ -3,7 +3,7 @@ import Table from "../components/Table";
 import Modal from "../components/Modal";
 import Button from "../components/Button";
 import MovieForm from "../forms/MovieForm";
-
+import { FiInfo, FiEdit, FiTrash } from "react-icons/fi"; // Mengimpor ikon
 import { useNavigate, useLocation } from "react-router-dom";
 
 const MovieList = () => {
@@ -18,7 +18,9 @@ const MovieList = () => {
     title: "",
     category: "film",
     watched: false,
+    description: "", // Tambahkan properti ini
   });
+
   const [filter, setFilter] = useState("all");
 
   const navigate = useNavigate();
@@ -30,9 +32,19 @@ const MovieList = () => {
     localStorage.setItem("movies", JSON.stringify(updatedMovies));
   };
 
+  const markAsWatched = (movieToMark) => {
+    const updatedMovies = movies.map((movie) =>
+      movie.id === movieToMark.id ? { ...movie, watched: true } : movie,
+    );
+    setMovies(updatedMovies);
+    localStorage.setItem("movies", JSON.stringify(updatedMovies));
+  };
   const addMovie = () => {
     const newId = movies.length > 0 ? movies[movies.length - 1].id + 1 : 1;
-    const updatedMovies = [...movies, { ...newMovie, id: newId }];
+    const updatedMovies = [
+      ...movies,
+      { ...newMovie, id: newId, watched: false, description: "" },
+    ];
     setMovies(updatedMovies);
     localStorage.setItem("movies", JSON.stringify(updatedMovies));
     setIsModalOpen(false);
@@ -41,7 +53,7 @@ const MovieList = () => {
 
   const updateMovie = () => {
     const updatedMovies = movies.map((movie) =>
-      movie === currentMovie ? { ...newMovie } : movie,
+      movie.id === currentMovie.id ? { ...newMovie } : movie,
     );
     setMovies(updatedMovies);
     localStorage.setItem("movies", JSON.stringify(updatedMovies));
@@ -102,7 +114,7 @@ const MovieList = () => {
               setIsModalOpen(true);
             }}
           >
-            Tambah Film 🎥
+            Tambah Film
           </Button>
         </div>
 
@@ -110,7 +122,7 @@ const MovieList = () => {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="w-full p-2 rounded-md border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+            className="lg:w-full px-1 py-2  lg:p-2 rounded-md border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
           >
             <option value="all">Semua</option>
             <option value="watched">Sudah Ditonton</option>
@@ -132,21 +144,43 @@ const MovieList = () => {
             className: "hidden sm:table-cell",
           },
           {
-            header: "Status",
-            accessorKey: "watched",
-            cell: (info) =>
-              info.getValue() ? "Sudah Ditonton" : "Belum Ditonton",
+            header: "Selesai",
+            cell: ({ row }) => (
+              <div>
+                {row.original.watched ? (
+                  "Selesai ✔️"
+                ) : (
+                  <Button onClick={() => markAsWatched(row.original)}>
+                    Selesai
+                  </Button>
+                )}
+              </div>
+            ),
           },
           {
             header: "Aksi",
             cell: ({ row }) => (
-              <div>
-                <Button onClick={() => navigate(`/movies/${row.original.id}`)}>
-                  Detail
-                </Button>
+              <div className="flex space-x-2">
+                <span
+                  className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+                  onClick={() => navigate(`/movies/${row.original.id}`)}
+                >
+                  <FiInfo size={20} />
+                </span>
 
-                <Button onClick={() => handleEdit(row.original)}>Edit</Button>
-                <Button onClick={() => deleteMovie(row.original)}>Hapus</Button>
+                <span
+                  className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400"
+                  onClick={() => handleEdit(row.original)}
+                >
+                  <FiEdit size={20} />
+                </span>
+
+                <span
+                  className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400"
+                  onClick={() => deleteMovie(row.original)}
+                >
+                  <FiTrash size={20} />
+                </span>
               </div>
             ),
           },
@@ -163,8 +197,8 @@ const MovieList = () => {
         title={isEditMode ? "Edit Film" : "Tambah Film"}
         description={
           isEditMode
-            ? "Edit detail film yang dipilih."
-            : "Isi detail film baru."
+            ? "Edit detail film kamu yukk."
+            : "Isi detail film baru yukk."
         }
       >
         <MovieForm

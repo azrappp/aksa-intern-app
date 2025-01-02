@@ -24,9 +24,13 @@ const Button = ({ variant = "primary", children, ...props }) => {
   return (
     <HlButton
       className={clsx(
-        "inline-flex flex-nowrap text-nowrap items-center justify-center gap-2 px-6 py-2 font-medium shadow-sm rounded-full transition-colors duration-200",
+        "inline-flex flex-nowrap text-nowrap items-center justify-center gap-2 px-4 py-2 font-medium shadow-sm rounded-full transition-colors duration-200",
         "disabled:bg-gray-100 disabled:text-gray-300 dark:disabled:bg-gray-800 dark:disabled:text-gray-500", // Disabled styles
         variant && variants[variant], // Apply variant styles
+        // Responsiveness
+        "sm:px-6 sm:py-2 sm:text-base",
+        "md:px-6 md:py-2 md:text-base",
+        "lg:px-8 lg:py-2 lg:text-base",
       )}
       {...props}
     >
