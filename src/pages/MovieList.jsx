@@ -21,7 +21,9 @@ const MovieList = () => {
     category: "film",
     watched: false,
   });
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState(
+    () => localStorage.getItem("filter") || "all",
+  );
 
   const navigate = useNavigate();
 
@@ -70,6 +72,11 @@ const MovieList = () => {
   useEffect(() => {
     localStorage.setItem("pageIndex", JSON.stringify(pageIndex));
   }, [pageIndex]);
+
+  // Simpan filter ke localStorage saat berubah
+  useEffect(() => {
+    localStorage.setItem("filter", filter);
+  }, [filter]);
 
   const filteredMovies = movies.filter((movie) => {
     if (filter === "watched") return movie.watched;
