@@ -4,13 +4,11 @@ import Modal from "../components/Modal";
 import Button from "../components/Button";
 import MovieForm from "../forms/MovieForm";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const MovieList = () => {
   const [movies, setMovies] = useState([]);
-  const [pageIndex, setPageIndex] = useState(
-    () => JSON.parse(localStorage.getItem("pageIndex")) || 0,
-  );
+  const [pageIndex, setPageIndex] = useState(0);
   const [pageSize, setPageSize] = useState(5);
   const [hasMoreData, setHasMoreData] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,11 +19,10 @@ const MovieList = () => {
     category: "film",
     watched: false,
   });
-  const [filter, setFilter] = useState(
-    () => localStorage.getItem("filter") || "all",
-  );
+  const [filter, setFilter] = useState("all");
 
   const navigate = useNavigate();
+  const location = useLocation();
 
   const deleteMovie = (movieToDelete) => {
     const updatedMovies = movies.filter((movie) => movie !== movieToDelete);
@@ -59,6 +56,24 @@ const MovieList = () => {
     setIsModalOpen(true);
   };
 
+  // Menyinkronkan state dengan query string di URL
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const savedPageIndex = parseInt(searchParams.get("pageIndex")) || 0;
+    const savedFilter = searchParams.get("filter") || "all";
+
+    setPageIndex(savedPageIndex);
+    setFilter(savedFilter);
+  }, [location.search]);
+
+  // Menyimpan query string saat state berubah
+  useEffect(() => {
+    const searchParams = new URLSearchParams();
+    searchParams.set("pageIndex", pageIndex);
+    searchParams.set("filter", filter);
+    navigate({ search: searchParams.toString() }, { replace: true });
+  }, [pageIndex, filter, navigate]);
+
   useEffect(() => {
     const storedMovies = JSON.parse(localStorage.getItem("movies")) || [];
     setMovies(storedMovies);
@@ -67,16 +82,6 @@ const MovieList = () => {
   useEffect(() => {
     setHasMoreData(movies.length > (pageIndex + 1) * pageSize);
   }, [movies, pageIndex, pageSize]);
-
-  // Simpan pageIndex ke localStorage saat berubah
-  useEffect(() => {
-    localStorage.setItem("pageIndex", JSON.stringify(pageIndex));
-  }, [pageIndex]);
-
-  // Simpan filter ke localStorage saat berubah
-  useEffect(() => {
-    localStorage.setItem("filter", filter);
-  }, [filter]);
 
   const filteredMovies = movies.filter((movie) => {
     if (filter === "watched") return movie.watched;
