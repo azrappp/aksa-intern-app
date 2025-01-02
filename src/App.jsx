@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./HomePage";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
-import { useState } from "react";
+import MovieDetail from "./pages/MovieDetail";
 
 function App() {
   return (
@@ -14,6 +14,15 @@ function App() {
           element={
             <ProtectedRoute>
               <HomePage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/movies/:id"
+          element={
+            <ProtectedRoute>
+              <MovieDetail />
             </ProtectedRoute>
           }
         />

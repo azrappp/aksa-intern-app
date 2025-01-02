@@ -34,7 +34,7 @@ function Login() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-full max-w-md flex flex-col items-center">
+      <div className="bg-white dark:bg-gray-800 p-8 rounded-lg w-full max-w-md flex flex-col items-center">
         {/* Toggle Theme Button */}
         <div className="flex justify-end">
           <button

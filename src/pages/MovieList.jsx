@@ -4,6 +4,7 @@ import Modal from "../components/Modal";
 import Button from "../components/Button";
 import MovieForm from "../forms/MovieForm";
 
+import { useNavigate } from "react-router-dom";
 const MovieList = () => {
   const [movies, setMovies] = useState([]);
   const [pageIndex, setPageIndex] = useState(0);
@@ -24,6 +25,7 @@ const MovieList = () => {
     localStorage.setItem("movies", JSON.stringify(updatedMovies));
   };
 
+  const navigate = useNavigate();
   const addMovie = () => {
     const updatedMovies = [...movies, newMovie];
     setMovies(updatedMovies);
@@ -106,7 +108,7 @@ const MovieList = () => {
           {
             header: "Kategori",
             accessorKey: "category",
-            className: "hidden sm:table-cell", // Kolom ini disembunyikan di layar kecil
+            className: "hidden sm:table-cell",
           },
           {
             header: "Status Ditonton",
@@ -118,6 +120,9 @@ const MovieList = () => {
             header: "Aksi",
             cell: ({ row }) => (
               <div>
+                <Button onClick={() => navigate(`/movies/${row.index}`)}>
+                  Detail
+                </Button>
                 <Button onClick={() => handleEdit(row.original)}>Edit</Button>
                 <Button onClick={() => deleteMovie(row.original)}>Hapus</Button>
               </div>
@@ -130,7 +135,6 @@ const MovieList = () => {
         setPageIndex={setPageIndex}
         setPageSize={setPageSize}
       />
-
       <Modal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
