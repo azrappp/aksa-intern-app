@@ -31,7 +31,8 @@ const MovieList = () => {
   };
 
   const addMovie = () => {
-    const updatedMovies = [...movies, newMovie];
+    const newId = movies.length > 0 ? movies[movies.length - 1].id + 1 : 1;
+    const updatedMovies = [...movies, { ...newMovie, id: newId }];
     setMovies(updatedMovies);
     localStorage.setItem("movies", JSON.stringify(updatedMovies));
     setIsModalOpen(false);
@@ -101,7 +102,7 @@ const MovieList = () => {
               setIsModalOpen(true);
             }}
           >
-            Tambah Film
+            Tambah Film 🎥
           </Button>
         </div>
 
@@ -131,7 +132,7 @@ const MovieList = () => {
             className: "hidden sm:table-cell",
           },
           {
-            header: "Status Ditonton",
+            header: "Status",
             accessorKey: "watched",
             cell: (info) =>
               info.getValue() ? "Sudah Ditonton" : "Belum Ditonton",
@@ -140,9 +141,10 @@ const MovieList = () => {
             header: "Aksi",
             cell: ({ row }) => (
               <div>
-                <Button onClick={() => navigate(`/movies/${row.index}`)}>
+                <Button onClick={() => navigate(`/movies/${row.original.id}`)}>
                   Detail
                 </Button>
+
                 <Button onClick={() => handleEdit(row.original)}>Edit</Button>
                 <Button onClick={() => deleteMovie(row.original)}>Hapus</Button>
               </div>

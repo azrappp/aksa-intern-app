@@ -4,10 +4,14 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 
 const MovieDetail = () => {
-  const { movieId } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
   const movies = JSON.parse(localStorage.getItem("movies")) || [];
-  const movie = movies.find((movie) => movie.id === movieId);
+  const movie = movies.find((movie) => String(movie.id) === id);
+
+  console.log("movieId:", id); // Debug
+  console.log("movies:", movies); // Debug
+  console.log("matchedMovie:", movie); // Debug
 
   if (!movie) {
     return (
