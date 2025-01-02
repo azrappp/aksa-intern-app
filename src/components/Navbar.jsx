@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import Button from "./Button";
-import { FiSun, FiMoon } from "react-icons/fi"; // Ikon tema (React Icons)
+import { FiSun, FiMoon, FiChevronDown } from "react-icons/fi"; // Ikon tema dan chevron
 
 const Navbar = ({ theme, toggleTheme }) => {
   const [username, setUsername] = useState(null);
@@ -23,34 +23,12 @@ const Navbar = ({ theme, toggleTheme }) => {
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 p-4 items-center justify-center flex backdrop-blur-md bg-white bg-opacity-50 dark:bg-transparent border-b border-gray-300 dark:border-gray-700">
-      <div className="w-[1080px] flex flex-row items-center justify-between">
+      <div className="w-full max-w-[1080px] flex flex-row items-center justify-between">
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <span className="text-xl font-semibold text-gray-800 dark:text-white">
             Filfilm
           </span>
-        </div>
-
-        {/* Navigation Links (optional) */}
-        <div className="hidden md:flex space-x-6">
-          <a
-            href="/"
-            className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
-          >
-            Home
-          </a>
-          <a
-            href="/about"
-            className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
-          >
-            About
-          </a>
-          <a
-            href="/contact"
-            className="text-gray-600 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
-          >
-            Contact
-          </a>
         </div>
 
         {/* Dropdown Username & Theme toggle */}
@@ -59,9 +37,14 @@ const Navbar = ({ theme, toggleTheme }) => {
             <div className="relative">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="text-gray-800 dark:text-white focus:outline-none"
+                className="flex items-center text-gray-800 dark:text-white focus:outline-none"
               >
-                Hello, {username}
+                <span>Hello, {username}</span>
+                <FiChevronDown
+                  className={`ml-2 transition-transform duration-300 ${
+                    isDropdownOpen ? "rotate-180" : "rotate-0"
+                  }`}
+                />
               </button>
 
               {isDropdownOpen && (
