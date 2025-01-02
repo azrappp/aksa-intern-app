@@ -5,9 +5,12 @@ import Button from "../components/Button";
 import MovieForm from "../forms/MovieForm";
 
 import { useNavigate } from "react-router-dom";
+
 const MovieList = () => {
   const [movies, setMovies] = useState([]);
-  const [pageIndex, setPageIndex] = useState(0);
+  const [pageIndex, setPageIndex] = useState(
+    () => JSON.parse(localStorage.getItem("pageIndex")) || 0,
+  );
   const [pageSize, setPageSize] = useState(5);
   const [hasMoreData, setHasMoreData] = useState(true);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,14 +21,16 @@ const MovieList = () => {
     category: "film",
     watched: false,
   });
-  const [filter, setFilter] = useState("all"); // State untuk filter
+  const [filter, setFilter] = useState("all");
+
+  const navigate = useNavigate();
+
   const deleteMovie = (movieToDelete) => {
     const updatedMovies = movies.filter((movie) => movie !== movieToDelete);
     setMovies(updatedMovies);
     localStorage.setItem("movies", JSON.stringify(updatedMovies));
   };
 
-  const navigate = useNavigate();
   const addMovie = () => {
     const updatedMovies = [...movies, newMovie];
     setMovies(updatedMovies);
@@ -61,11 +66,15 @@ const MovieList = () => {
     setHasMoreData(movies.length > (pageIndex + 1) * pageSize);
   }, [movies, pageIndex, pageSize]);
 
-  // Filter movies based on the selected filter
+  // Simpan pageIndex ke localStorage saat berubah
+  useEffect(() => {
+    localStorage.setItem("pageIndex", JSON.stringify(pageIndex));
+  }, [pageIndex]);
+
   const filteredMovies = movies.filter((movie) => {
     if (filter === "watched") return movie.watched;
     if (filter === "notWatched") return !movie.watched;
-    return true; // For 'all'
+    return true;
   });
 
   return (
@@ -84,7 +93,6 @@ const MovieList = () => {
           </Button>
         </div>
 
-        {/* Filter Dropdown */}
         <div className="relative inline-block text-left">
           <select
             value={filter}

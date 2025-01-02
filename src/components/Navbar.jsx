@@ -27,11 +27,11 @@ const Navbar = ({ theme, toggleTheme }) => {
         {/* Logo */}
         <div className="flex items-center space-x-2">
           <span className="text-xl font-semibold text-gray-800 dark:text-white">
-            Nonton
+            Filfilm
           </span>
         </div>
 
-        {/* Navigation Links */}
+        {/* Navigation Links (optional) */}
         <div className="hidden md:flex space-x-6">
           <a
             href="/"
@@ -53,7 +53,7 @@ const Navbar = ({ theme, toggleTheme }) => {
           </a>
         </div>
 
-        {/* Displaying username and theme toggle */}
+        {/* Dropdown Username & Theme toggle */}
         <div className="flex items-center space-x-4 relative">
           {username && (
             <div className="relative">
@@ -66,6 +66,12 @@ const Navbar = ({ theme, toggleTheme }) => {
 
               {isDropdownOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-md shadow-lg py-1 z-10 dark:bg-gray-800 dark:border-gray-700">
+                  <button
+                    onClick={() => (window.location.href = "/edit-username")}
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"
+                  >
+                    Edit Username
+                  </button>
                   <button
                     onClick={handleLogout}
                     className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900 dark:text-gray-300 dark:hover:bg-gray-700 dark:hover:text-white"

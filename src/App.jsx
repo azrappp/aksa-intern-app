@@ -3,6 +3,7 @@ import HomePage from "./HomePage";
 import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MovieDetail from "./pages/MovieDetail";
+import EditUsername from "./forms/EditUsername";
 
 function App() {
   return (
@@ -23,6 +24,15 @@ function App() {
           element={
             <ProtectedRoute>
               <MovieDetail />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/edit-username"
+          element={
+            <ProtectedRoute>
+              <EditUsername />
             </ProtectedRoute>
           }
         />
