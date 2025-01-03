@@ -32,7 +32,6 @@ Untuk memulai aplikasi ini secara lokal, ikuti langkah-langkah berikut:
     ```
 
 2. **Instal dependensi**:
-    - Di direktori proyek utama (frontend dengan Vite), jalankan:
       ```bash
       npm install
       ```
