@@ -3,7 +3,7 @@ import Table from "../components/Table";
 import Modal from "../components/Modal";
 import Button from "../components/Button";
 import MovieForm from "../forms/MovieForm";
-import { FiInfo, FiEdit, FiTrash } from "react-icons/fi"; // Mengimpor ikon
+import { FiInfo, FiEdit, FiTrash } from "react-icons/fi";
 import { useNavigate, useLocation } from "react-router-dom";
 
 const MovieList = () => {
@@ -18,9 +18,8 @@ const MovieList = () => {
     title: "",
     category: "film",
     watched: false,
-    description: "", // Tambahkan properti ini
+    description: "",
   });
-
   const [filter, setFilter] = useState("all");
 
   const navigate = useNavigate();
@@ -39,6 +38,7 @@ const MovieList = () => {
     setMovies(updatedMovies);
     localStorage.setItem("movies", JSON.stringify(updatedMovies));
   };
+
   const addMovie = () => {
     const newId = movies.length > 0 ? movies[movies.length - 1].id + 1 : 1;
     const updatedMovies = [
@@ -69,7 +69,6 @@ const MovieList = () => {
     setIsModalOpen(true);
   };
 
-  // Menyinkronkan state dengan query string di URL
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const savedPageIndex = parseInt(searchParams.get("pageIndex")) || 0;
@@ -79,7 +78,6 @@ const MovieList = () => {
     setFilter(savedFilter);
   }, [location.search]);
 
-  // Menyimpan query string saat state berubah
   useEffect(() => {
     const searchParams = new URLSearchParams();
     searchParams.set("pageIndex", pageIndex);
@@ -122,7 +120,7 @@ const MovieList = () => {
           <select
             value={filter}
             onChange={(e) => setFilter(e.target.value)}
-            className="lg:w-full px-1 py-2  lg:p-2 rounded-md border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
+            className="lg:w-full px-1 py-2 lg:p-2 rounded-md border border-gray-300 bg-white dark:bg-gray-700 dark:border-gray-600 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
           >
             <option value="all">Semua</option>
             <option value="watched">Sudah Ditonton</option>
@@ -131,66 +129,83 @@ const MovieList = () => {
         </div>
       </div>
 
-      <Table
-        data={filteredMovies.slice(
-          pageIndex * pageSize,
-          (pageIndex + 1) * pageSize,
-        )}
-        columnsDef={[
-          { header: "Judul Film", accessorKey: "title" },
-          {
-            header: "Kategori",
-            accessorKey: "category",
-            className: "hidden sm:table-cell",
-          },
-          {
-            header: "Selesai",
-            cell: ({ row }) => (
-              <div>
-                {row.original.watched ? (
-                  "Selesai ✔️"
-                ) : (
-                  <Button onClick={() => markAsWatched(row.original)}>
-                    Selesai
-                  </Button>
-                )}
-              </div>
-            ),
-          },
-          {
-            header: "Aksi",
-            cell: ({ row }) => (
-              <div className="flex space-x-2">
-                <span
-                  className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
-                  onClick={() => navigate(`/movies/${row.original.id}`)}
-                >
-                  <FiInfo size={20} />
-                </span>
+      {filteredMovies.length === 0 ? (
+        <div className="p-4 text-center rounded-md bg-white dark:bg-gray-800 bg-opacity-70 backdrop-blur-lg border border-gray-300 dark:border-gray-600 shadow-md">
+          <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            Wahh, Anda belum memiliki film!
+          </p>
+          <p className="mt-2 text-gray-700 dark:text-gray-300">
+            Mari mulai menambahkan film ke daftar Anda dengan menekan tombol
+            <strong className="text-gray-700 dark:text-gray-300">
+              {" "}
+              "Tambah Film"
+            </strong>{" "}
+            di atas.
+          </p>
+        </div>
+      ) : (
+        <Table
+          data={filteredMovies.slice(
+            pageIndex * pageSize,
+            (pageIndex + 1) * pageSize,
+          )}
+          columnsDef={[
+            { header: "Judul Film", accessorKey: "title" },
+            {
+              header: "Kategori",
+              accessorKey: "category",
+              className: "hidden sm:table-cell",
+            },
+            {
+              header: "Selesai",
+              cell: ({ row }) => (
+                <div>
+                  {row.original.watched ? (
+                    "Selesai ✔️"
+                  ) : (
+                    <Button onClick={() => markAsWatched(row.original)}>
+                      Selesai
+                    </Button>
+                  )}
+                </div>
+              ),
+            },
+            {
+              header: "Aksi",
+              cell: ({ row }) => (
+                <div className="flex space-x-2">
+                  <span
+                    className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
+                    onClick={() => navigate(`/movies/${row.original.id}`)}
+                  >
+                    <FiInfo size={20} />
+                  </span>
 
-                <span
-                  className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400"
-                  onClick={() => handleEdit(row.original)}
-                >
-                  <FiEdit size={20} />
-                </span>
+                  <span
+                    className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400"
+                    onClick={() => handleEdit(row.original)}
+                  >
+                    <FiEdit size={20} />
+                  </span>
 
-                <span
-                  className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400"
-                  onClick={() => deleteMovie(row.original)}
-                >
-                  <FiTrash size={20} />
-                </span>
-              </div>
-            ),
-          },
-        ]}
-        pageIndex={pageIndex}
-        pageSize={pageSize}
-        hasMoreData={hasMoreData}
-        setPageIndex={setPageIndex}
-        setPageSize={setPageSize}
-      />
+                  <span
+                    className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400"
+                    onClick={() => deleteMovie(row.original)}
+                  >
+                    <FiTrash size={20} />
+                  </span>
+                </div>
+              ),
+            },
+          ]}
+          pageIndex={pageIndex}
+          pageSize={pageSize}
+          hasMoreData={hasMoreData}
+          setPageIndex={setPageIndex}
+          setPageSize={setPageSize}
+        />
+      )}
+
       <Modal
         open={isModalOpen}
         onClose={() => setIsModalOpen(false)}
