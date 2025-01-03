@@ -132,7 +132,7 @@ const MovieList = () => {
       {filteredMovies.length === 0 ? (
         <div className="p-4 text-center rounded-md bg-white dark:bg-gray-800 bg-opacity-70 backdrop-blur-lg border border-gray-300 dark:border-gray-600 shadow-md">
           <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            Wahh, Anda belum memiliki film!
+            Wahh,Anda belum memiliki film!
           </p>
           <p className="mt-2 text-gray-700 dark:text-gray-300">
             Mari mulai menambahkan film ke daftar Anda dengan menekan tombol
@@ -145,10 +145,7 @@ const MovieList = () => {
         </div>
       ) : (
         <Table
-          data={filteredMovies.slice(
-            pageIndex * pageSize,
-            (pageIndex + 1) * pageSize,
-          )}
+          data={filteredMovies}
           columnsDef={[
             { header: "Judul Film", accessorKey: "title" },
             {
@@ -160,12 +157,10 @@ const MovieList = () => {
               header: "Selesai",
               cell: ({ row }) => (
                 <div>
-                  {row.original.watched ? (
+                  {row.watched ? (
                     "Selesai ✔️"
                   ) : (
-                    <Button onClick={() => markAsWatched(row.original)}>
-                      Selesai
-                    </Button>
+                    <Button onClick={() => markAsWatched(row)}>Selesai</Button>
                   )}
                 </div>
               ),
@@ -175,22 +170,20 @@ const MovieList = () => {
               cell: ({ row }) => (
                 <div className="flex space-x-2">
                   <span
-                    className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-blue-500 dark:hover:text-blue-400"
-                    onClick={() => navigate(`/movies/${row.original.id}`)}
+                    className="cursor-pointer text-gray-600 hover:text-blue-500"
+                    onClick={() => navigate(`/movies/${row.id}`)}
                   >
                     <FiInfo size={20} />
                   </span>
-
                   <span
-                    className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-yellow-500 dark:hover:text-yellow-400"
-                    onClick={() => handleEdit(row.original)}
+                    className="cursor-pointer text-gray-600 hover:text-yellow-500"
+                    onClick={() => handleEdit(row)}
                   >
                     <FiEdit size={20} />
                   </span>
-
                   <span
-                    className="cursor-pointer text-gray-600 dark:text-gray-300 hover:text-red-500 dark:hover:text-red-400"
-                    onClick={() => deleteMovie(row.original)}
+                    className="cursor-pointer text-gray-600 hover:text-red-500"
+                    onClick={() => deleteMovie(row)}
                   >
                     <FiTrash size={20} />
                   </span>
