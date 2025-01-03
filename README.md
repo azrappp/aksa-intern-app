@@ -19,7 +19,7 @@
 Pastikan Anda telah menginstal hal berikut sebelum memulai:
 
 - **Node.js**: Untuk menjalankan aplikasi frontend dengan Vite.
-- **npm atau yarn**: Untuk mengelola dependensi.
+- **npm**: Untuk mengelola dependensi.
 
 ## Instalasi
 
@@ -35,10 +35,6 @@ Untuk memulai aplikasi ini secara lokal, ikuti langkah-langkah berikut:
     - Di direktori proyek utama (frontend dengan Vite), jalankan:
       ```bash
       npm install
-      ```
-    - Atau jika Anda menggunakan **yarn**:
-      ```bash
-      yarn install
       ```
 
 3. **Jalankan aplikasi**:
