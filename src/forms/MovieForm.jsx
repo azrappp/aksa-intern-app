@@ -44,14 +44,15 @@ const MovieForm = ({ newMovie, setNewMovie, onSubmit, isEditMode }) => {
       {/* Checkbox Ditonton */}
       {isEditMode && (
         <div className="mb-4">
-          <label className="inline-flex items-center mt-2">
-            <Input
-              label="Sudah Ditonton"
+          <label className="inline-flex items-center mt-2 gap-2">
+            <input
+              id="watched"
               type="checkbox"
               checked={newMovie.watched}
               onChange={() =>
                 setNewMovie({ ...newMovie, watched: !newMovie.watched })
               }
+              className="ms-2 h-5 w-5 rounded focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 transition-all"
             />
             <span className="text-slate-700 dark:text-slate-300">
               ✔️ Sudah Ditonton?

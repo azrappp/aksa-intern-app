@@ -4,8 +4,12 @@ import Login from "./pages/Login";
 import ProtectedRoute from "./components/ProtectedRoute";
 import MovieDetail from "./pages/MovieDetail";
 import EditUsername from "./pages/EditUsername";
+import About from "./pages/About";
+import useTheme from "./hooks/useTheme";
 
 function App() {
+  const theme = useTheme(); // Gunakan hook
+
   return (
     <Router>
       <Routes>
@@ -33,6 +37,15 @@ function App() {
           element={
             <ProtectedRoute>
               <EditUsername />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/about"
+          element={
+            <ProtectedRoute>
+              <About />
             </ProtectedRoute>
           }
         />
