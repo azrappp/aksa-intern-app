@@ -51,10 +51,6 @@ Untuk mengakses aplikasi, gunakan kredensial login berikut:
 
 Setelah berhasil login, Anda dapat mulai mengelola daftar film Anda.
 
-## Struktur Folder
-
-Berikut adalah struktur folder aplikasi:
-
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
